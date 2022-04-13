@@ -13,6 +13,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import edu.princeton.cs.algs4.Point2D;
@@ -40,7 +41,6 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private boolean leftClick = false;
 
     public MainPanel(BufferedImage image, KdTreeST<Integer> poi) {
-
         this.poi = poi;
         this.image = image;
         initComponent();
@@ -100,26 +100,34 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
             at.translate(xOffset, yOffset);
             at.scale(zoomFactor, zoomFactor);
             g2.transform(at);
+            double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX())
+                    - xOffset) / zoomFactor);
+            double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY())
+                    - yOffset) / zoomFactor);
+            Point2D mouse = new Point2D(mouseX, mouseY);
+            backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
+
             leftClick = false;
         }
 
         // All drawings go here
 
-        double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset) / zoomFactor);
-        double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY()) - yOffset) / zoomFactor);
-        Point2D mouse = new Point2D(mouseX,mouseY);
+        double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset)
+                / zoomFactor);
+        double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY()) - yOffset)
+                / zoomFactor);
+        Point2D mouse = new Point2D(mouseX, mouseY);
 
         g2.drawImage(image, 0, 0, this);
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int) (50)));
         g2.setColor(new Color(250, 0, 0));
         for (Point2D el : poi.points()) {
-            g2.fillOval((int)el.x(),(int)el.y(),50,50);
+            g2.fillOval((int) el.x(), (int) el.y(), 50, 50);
         }
         Point2D nearest = poi.nearest(mouse);
-        g2.setColor(new Color(0,0,250));
-        g2.fillOval((int)nearest.x(),(int)nearest.y(),50,50);
-        //g2.fillOval(1400, 1200, 50, 50);
+        g2.setColor(new Color(0, 0, 250));
+        g2.fillOval((int) nearest.x(), (int) nearest.y(), 50, 50);
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
 
@@ -129,18 +137,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         System.out.println("Xmouse: " +
                 MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
                 + MouseInfo.getPointerInfo().getLocation().getY());
-        /*
-         * AffineTransform at = new AffineTransform();
-         * Point2D source = new
-         * Point2D.Double(MouseInfo.getPointerInfo().getLocation().getX(),
-         * MouseInfo.getPointerInfo().getLocation().getY());
-         * Point2D out = new Point2D.Double(0.0, 0.0);
-         * at.translate(xOffset, yOffset);
-         * at.scale(zoomFactor, zoomFactor);
-         * at.transform(source, out);
-         * g2.drawString("X: " + out.getX(), 500, 500);
-         * g2.drawString("Y: " + out.getY(), 500, 700);
-         */
+
     }
 
     @Override

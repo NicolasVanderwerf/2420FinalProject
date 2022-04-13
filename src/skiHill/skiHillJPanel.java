@@ -3,7 +3,10 @@ package skiHill;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -19,6 +22,11 @@ public class skiHillJPanel extends JPanel {
 
 	private Stack<Integer> liftsSelected = new Stack();
 	private Queue<JRadioButton> deselectButtons = new Queue<>();
+	
+	//add all buttons to here 
+//	private ArrayList<JRadioButton> x = new ArrayList<>();
+	private JRadioButton[] allButtons = {new JRadioButton(""),new JRadioButton("")};
+	private int[][] allButtonLocations = {{378, 544, 109, 23},{401, 450, 109, 23}};
 	/**
 	 * Create the panel.
 	 */
@@ -35,12 +43,10 @@ public class skiHillJPanel extends JPanel {
 		extractedLblImage();
 		layeredPane.add(lblImage);
 		
-		JRadioButton rdbtnLift0 = extractedRdbtnLift0(layeredPane);
-		layeredPane.add(rdbtnLift0);
-		
-		JRadioButton rdbtnLift1 = extractedRdbtnLift1(layeredPane);
-		layeredPane.add(rdbtnLift1);
-
+		for(int i = 0; i < allButtons.length-1; i++) {
+		JRadioButton rdbtnLift = extractedRdbtnLift(layeredPane, i, allButtons[i]);
+			layeredPane.add(rdbtnLift);
+		}
 	}
 
 	/**
@@ -48,38 +54,42 @@ public class skiHillJPanel extends JPanel {
 	 * @param layeredPane
 	 * @return
 	 */
-	private JRadioButton extractedRdbtnLift0(JLayeredPane layeredPane) {
-		JRadioButton rdbtnLift0 = new JRadioButton("");
-		
+	private JRadioButton extractedRdbtnLift(JLayeredPane layeredPane, int i, JRadioButton rdbtn) {
 		//this is so we can simply iterate through the buttons and un-select them 
-		deselectButtons.enqueue(rdbtnLift0);
+		deselectButtons.enqueue(rdbtn);
 		
 		//whenever a button is clicked
-		rdbtnLift0.addActionListener(new ActionListener() {
+		rdbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(rdbtnLift0.isSelected()) {
+				if(rdbtn.isSelected()) {
+					
 					//pushed the number associated with this lift
 					liftsSelected.push(0);
 					
-					if(liftsSelected.size() == 2) {
+					if(liftsSelected.size() == 1) {
+						rdbtn.setBounds(allButtonLocations[i+1][0],allButtonLocations[i+1][1],allButtonLocations[i+1][2],allButtonLocations[i+1][3]);
+						//send int to wherever 
 						// TODO 
 						//run algorithm if two have been selected
 						//unselect the two buttons.
+					}
+					
+					if(liftsSelected.size() == 3) {
 						deselectAllLifts();
 					}
 				
 				}
 				else {
+					rdbtn.setBounds(allButtonLocations[i][0],allButtonLocations[i][1],allButtonLocations[i][2],allButtonLocations[i][3]);
 					liftsSelected.pop();
 					System.out.println("disabled" + liftsSelected);
 				}
 			}
 		});
-		
-		rdbtnLift0.setOpaque(false);
-		layeredPane.setLayer(rdbtnLift0, 1);
-		rdbtnLift0.setBounds(396, 424, 21, 23);
-		return rdbtnLift0;
+		rdbtn.setOpaque(false);
+		layeredPane.setLayer(rdbtn, 1);
+		rdbtn.setBounds(allButtonLocations[i][0],allButtonLocations[i][1],allButtonLocations[i][2],allButtonLocations[i][3]);
+		return rdbtn;
 	}
 	
 	/**
@@ -132,13 +142,18 @@ public class skiHillJPanel extends JPanel {
 		liftsSelected = new Stack();
 	}
 	
-	private void extractedLblImage() {
+	private void extractedLblImage(){
 		lblImage = new JLabel("");
 		lblImage.setBorder(null);
-		lblImage.setIcon(new ImageIcon(skiHillJPanel.class.getResource("/img/parkCityPhoto_25_cropped.jpg")));
+		try {
+			lblImage.setIcon(new ImageIcon(ImageIO.read(new File("panda test.jpg"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
 		//for cropped image: 
-		lblImage.setBounds(115, 0, 1196, 708);
+		lblImage.setBounds(121, 31, 1196, 708);
 		//for parkcity header: 
 //		lblImage.setBounds(120, 0, 1196, 708);
 	}
