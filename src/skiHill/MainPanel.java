@@ -32,8 +32,8 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private final BufferedImage image;
     private final KdTreeST<Integer> poi;
 
-    private double zoomFactor = 1;
-    private double prevZoomFactor = 1;
+    private double zoomFactor = 0.3;
+    private double prevZoomFactor = 0.3;
     private boolean zoomer;
     private boolean dragger;
     private boolean released;
