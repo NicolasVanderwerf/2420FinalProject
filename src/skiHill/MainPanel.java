@@ -13,6 +13,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import javax.swing.JPanel;
 
@@ -39,6 +43,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private int yDiff;
     private Point startPoint;
     private boolean leftClick = false;
+    private boolean mouseMoving = false;
 
     public MainPanel(BufferedImage image, KdTreeST<Integer> poi) {
         this.poi = poi;
@@ -104,13 +109,33 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
                     - xOffset) / zoomFactor);
             double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY())
                     - yOffset) / zoomFactor);
-            Point2D mouse = new Point2D(mouseX, mouseY);
-            backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
+            // Point2D mouse = new Point2D(mouseX, mouseY);
+            /*
+             * try {
+             * Writer output;
+             * output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
+             * output.append("\n" + mouseX + " " + mouseY);
+             * output.close();
+             * System.out.println("Successfully wrote to the file.");
+             * } catch (IOException e) {
+             * System.out.println("An error occurred.");
+             * e.printStackTrace();
+             * }
+             * //backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
+             */
 
             leftClick = false;
         }
 
-        // All drawings go here
+        if(mouseMoving){
+            AffineTransform at = new AffineTransform();
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+            g2.transform(at);
+            mouseMoving = false;
+
+        }
+
 
         double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset)
                 / zoomFactor);
@@ -123,11 +148,11 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int) (50)));
         g2.setColor(new Color(250, 0, 0));
         for (Point2D el : poi.points()) {
-            g2.fillOval((int) el.x(), (int) el.y(), 50, 50);
+            g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
         Point2D nearest = poi.nearest(mouse);
         g2.setColor(new Color(0, 0, 250));
-        g2.fillOval((int) nearest.x(), (int) nearest.y(), 50, 50);
+        g2.fillOval((int) nearest.x() - 25, (int) nearest.y() - 25, 50, 50);
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
 
@@ -172,6 +197,10 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (e.getButton() != MouseEvent.BUTTON1 && e.getButton() != MouseEvent.BUTTON3) {
+            mouseMoving = true;
+            repaint();
+        }
     }
 
     @Override
