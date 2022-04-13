@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Point2D;
+
 /**
  *
  * @author Thanasis1101
@@ -40,8 +43,21 @@ public class MainFrame extends JFrame {
 
             // Load the image that will be shown in the panel
             BufferedImage image = ImageIO.read(new File("4WitRozEG0phUysB.jpeg"));
+
+            String filename = "Edge Points.txt";
+            In in = new In(filename);
+ 
+            KdTreeST<Integer> testST1 = new KdTreeST<Integer>();
+ 
+             for (int i = 0; !in.isEmpty(); i++) {
+                double x = in.readDouble();
+                double y = in.readDouble();
+                Point2D p = new Point2D(x, y);
+                //System.out.println(p + " " + i);
+                testST1.put(p, i);
+            }
             
-            mainPanel = new MainPanel(image);
+            mainPanel = new MainPanel(image,testST1);
             mainPanel.setBounds(50, 50, width - 100, height - 240);
             mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             this.add(mainPanel);
@@ -77,7 +93,7 @@ public class MainFrame extends JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

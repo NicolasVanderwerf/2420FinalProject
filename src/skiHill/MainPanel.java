@@ -15,15 +15,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
+import edu.princeton.cs.algs4.Point2D;
+
 /**
  *
  * @author Thanasis1101
  * @version 1.0
  */
 public class MainPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
-    
+
     private final BufferedImage image;
-    
+    private final KdTreeST<Integer> poi;
+
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
     private boolean zoomer;
@@ -34,9 +37,11 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private int xDiff;
     private int yDiff;
     private Point startPoint;
+    private boolean leftClick = false;
 
-    public MainPanel(BufferedImage image) {
+    public MainPanel(BufferedImage image, KdTreeST<Integer> poi) {
 
+        this.poi = poi;
         this.image = image;
         initComponent();
 
@@ -48,17 +53,20 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         addMouseListener(this);
     }
 
+    public void update(Graphics g) {
+
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-
         Graphics2D g2 = (Graphics2D) g;
-        
+
         if (zoomer) {
             AffineTransform at = new AffineTransform();
 
-            double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+            double xRel = (MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX());
             double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
 
             double zoomDiv = zoomFactor / prevZoomFactor;
@@ -72,7 +80,6 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
             g2.transform(at);
             zoomer = false;
         }
-        
 
         if (dragger) {
             AffineTransform at = new AffineTransform();
@@ -88,25 +95,52 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
         }
 
-        // All drawings go here
-        
-        g2.drawImage(image, 0, 0, this);
-        
-        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int)(50)));
-        g2.setColor(new Color(250,0,0));
-        if((1400 - ((MouseInfo.getPointerInfo().getLocation().getX() - xOffset)/zoomFactor)) < 100){
-            g2.setColor(new Color(0,250,0));
+        if (leftClick) {
+            AffineTransform at = new AffineTransform();
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+            g2.transform(at);
+            leftClick = false;
         }
-        g2.fillOval(1400,1200,50,50);
-        
-        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
-        g2.drawString("X: " + (MouseInfo.getPointerInfo().getLocation().getX() - xOffset)/zoomFactor, 500, 500);
-        
-        g2.drawString("Y: " + ((MouseInfo.getPointerInfo().getLocation().getY() - yOffset)/zoomFactor), 500, 700);
-        System.out.println("Xmouse: " + MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: " + MouseInfo.getPointerInfo().getLocation().getY());
-        
-        
 
+        // All drawings go here
+
+        double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset) / zoomFactor);
+        double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY()) - yOffset) / zoomFactor);
+        Point2D mouse = new Point2D(mouseX,mouseY);
+
+        g2.drawImage(image, 0, 0, this);
+
+        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int) (50)));
+        g2.setColor(new Color(250, 0, 0));
+        for (Point2D el : poi.points()) {
+            g2.fillOval((int)el.x(),(int)el.y(),50,50);
+        }
+        Point2D nearest = poi.nearest(mouse);
+        g2.setColor(new Color(0,0,250));
+        g2.fillOval((int)nearest.x(),(int)nearest.y(),50,50);
+        //g2.fillOval(1400, 1200, 50, 50);
+
+        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
+
+        g2.drawString("X: " + mouseX, 500, 500);
+
+        g2.drawString("Y: " + mouseY, 500, 700);
+        System.out.println("Xmouse: " +
+                MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
+                + MouseInfo.getPointerInfo().getLocation().getY());
+        /*
+         * AffineTransform at = new AffineTransform();
+         * Point2D source = new
+         * Point2D.Double(MouseInfo.getPointerInfo().getLocation().getX(),
+         * MouseInfo.getPointerInfo().getLocation().getY());
+         * Point2D out = new Point2D.Double(0.0, 0.0);
+         * at.translate(xOffset, yOffset);
+         * at.scale(zoomFactor, zoomFactor);
+         * at.transform(source, out);
+         * g2.drawString("X: " + out.getX(), 500, 500);
+         * g2.drawString("Y: " + out.getY(), 500, 700);
+         */
     }
 
     @Override
@@ -114,12 +148,12 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
         zoomer = true;
 
-        //Zoom in
+        // Zoom in
         if (e.getWheelRotation() < 0) {
             zoomFactor *= 1.1;
             repaint();
         }
-        //Zoom out
+        // Zoom out
         if (e.getWheelRotation() > 0) {
             zoomFactor /= 1.1;
             repaint();
@@ -128,12 +162,14 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Point curPoint = e.getLocationOnScreen();
-        xDiff = curPoint.x - startPoint.x;
-        yDiff = curPoint.y - startPoint.y;
+        if (released == false) {
+            Point curPoint = e.getLocationOnScreen();
+            xDiff = curPoint.x - startPoint.x;
+            yDiff = curPoint.y - startPoint.y;
 
-        dragger = true;
-        repaint();
+            dragger = true;
+            repaint();
+        }
 
     }
 
@@ -143,19 +179,27 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            leftClick = true;
+            repaint();
+        }
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        released = false;
-        startPoint = MouseInfo.getPointerInfo().getLocation();
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            released = false;
+            startPoint = MouseInfo.getPointerInfo().getLocation();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        released = true;
-        repaint();
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            released = true;
+            repaint();
+        }
     }
 
     @Override
