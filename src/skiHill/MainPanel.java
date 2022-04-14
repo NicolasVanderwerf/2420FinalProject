@@ -95,6 +95,8 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
             if (released) {
                 xOffset += xDiff;
                 yOffset += yDiff;
+                if(xOffset > 0) xOffset = 0;
+                if(yOffset > 0) yOffset = 0;
                 dragger = false;
             }
 
@@ -158,7 +160,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
         g2.drawString("X: " + xOffset, 500, 500);
 
-        g2.drawString("Y: " + yOffset, 500, 700);
+        g2.drawString("Y: " + zoomFactor, 500, 700);
         System.out.println("Xmouse: " +
                 MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
                 + MouseInfo.getPointerInfo().getLocation().getY());
