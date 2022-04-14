@@ -156,9 +156,9 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
 
-        g2.drawString("X: " + mouseX, 500, 500);
+        g2.drawString("X: " + xOffset, 500, 500);
 
-        g2.drawString("Y: " + mouseY, 500, 700);
+        g2.drawString("Y: " + yOffset, 500, 700);
         System.out.println("Xmouse: " +
                 MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
                 + MouseInfo.getPointerInfo().getLocation().getY());
