@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
             }
             
             mainPanel = new MainPanel(image,testST1);
-            mainPanel.setBounds(50, 50, width - 200, (int)((width-200)*0.53));
+            mainPanel.setBounds(50, 50, width - 500, (int)((width-500)*0.536));
             mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             this.add(mainPanel);
             mainPanel.setVisible(true);
