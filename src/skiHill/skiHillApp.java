@@ -1,15 +1,9 @@
 package skiHill;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 public class skiHillApp extends JFrame {
 
     private JPanel contentPane;
+    private static JLabel lblRouteOutput;
 
     /**
      * Launch the application.
@@ -37,6 +32,9 @@ public class skiHillApp extends JFrame {
         });
     }
 
+    public static JLabel GetlblRouteOutput() {
+        return lblRouteOutput;
+    }
     /**
      * Create the frame.
      */
@@ -70,7 +68,7 @@ public class skiHillApp extends JFrame {
     }
 
     private JLabel extractedlblRouteOutput() {
-        JLabel lblRouteOutput = new JLabel("This is where the ski run output will go!");
+        lblRouteOutput = new JLabel("Select your location, then your desired destination: ");
         lblRouteOutput.setBorder(new EmptyBorder(20, 0, 20, 0));
         lblRouteOutput.setFont(new Font("Monospaced", Font.BOLD, 30));
         lblRouteOutput.setHorizontalAlignment(SwingConstants.CENTER);

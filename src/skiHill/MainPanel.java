@@ -14,10 +14,12 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import edu.princeton.cs.algs4.Point2D;
@@ -44,8 +46,15 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private Point startPoint;
     private boolean leftClick = false;
     private boolean mouseMoving = false;
+    private BufferedImage button1;
 
     public MainPanel(BufferedImage image, KdTreeST<Integer> poi) {
+        try {
+            this.button1 = ImageIO.read(new File("red_button.jpg"));
+        } catch (IOException e) {
+            System.out.println("Fiked");
+            e.printStackTrace();
+        }
         this.poi = poi;
         this.image = image;
         initComponent();
@@ -95,8 +104,10 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
             if (released) {
                 xOffset += xDiff;
                 yOffset += yDiff;
-                if(xOffset > 0) xOffset = 0;
-                if(yOffset > 0) yOffset = 0;
+                if (xOffset > 0)
+                    xOffset = 0;
+                if (yOffset > 0)
+                    yOffset = 0;
                 dragger = false;
             }
 
@@ -111,25 +122,26 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
                     - xOffset) / zoomFactor);
             double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY())
                     - yOffset) / zoomFactor);
-            // Point2D mouse = new Point2D(mouseX, mouseY);
+
+            Point2D mouse = new Point2D(mouseX, mouseY);
             /*
-             * try {
-             * Writer output;
-             * output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
-             * output.append("\n" + mouseX + " " + mouseY);
-             * output.close();
-             * System.out.println("Successfully wrote to the file.");
-             * } catch (IOException e) {
-             * System.out.println("An error occurred.");
-             * e.printStackTrace();
-             * }
-             * //backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
-             */
+            try {
+                Writer output;
+                output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
+                output.append("\n" + mouseX + " " + mouseY);
+                output.close();
+                System.out.println("Successfully wrote to the file.");
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            */
+            backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
 
             leftClick = false;
         }
 
-        if(mouseMoving){
+        if (mouseMoving) {
             AffineTransform at = new AffineTransform();
             at.translate(xOffset, yOffset);
             at.scale(zoomFactor, zoomFactor);
@@ -137,7 +149,6 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
             mouseMoving = false;
 
         }
-
 
         double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset)
                 / zoomFactor);
@@ -155,6 +166,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         Point2D nearest = poi.nearest(mouse);
         g2.setColor(new Color(0, 0, 250));
         g2.fillOval((int) nearest.x() - 25, (int) nearest.y() - 25, 50, 50);
+       // g2.drawImage(button1, (int) nearest.x(), (int) nearest.y(), this);
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
 
@@ -164,6 +176,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         System.out.println("Xmouse: " +
                 MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
                 + MouseInfo.getPointerInfo().getLocation().getY());
+
 
     }
 
