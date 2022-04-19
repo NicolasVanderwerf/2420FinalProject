@@ -29,12 +29,12 @@ import edu.princeton.cs.algs4.Point2D;
  * @author Thanasis1101
  * @version 1.0
  */
-public class MainPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
+public class skiHillPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
     private final BufferedImage image;
     private final KdTreeST<Integer> poi;
 
-    private double zoomFactor = 0.29;
+    private double zoomFactor = 0.2;
     private double prevZoomFactor = 0.3;
     private boolean zoomer;
     private boolean dragger;
@@ -47,8 +47,9 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     private boolean leftClick = false;
     private boolean mouseMoving = false;
     private BufferedImage button1;
+    private int repaintTrack = 0;
 
-    public MainPanel(BufferedImage image, KdTreeST<Integer> poi) {
+    public skiHillPanel(BufferedImage image, KdTreeST<Integer> poi) {
         try {
             this.button1 = ImageIO.read(new File("red_button.jpg"));
         } catch (IOException e) {
@@ -76,79 +77,81 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         super.paint(g);
 
         Graphics2D g2 = (Graphics2D) g;
+        AffineTransform at = new AffineTransform();
 
         if (zoomer) {
-            AffineTransform at = new AffineTransform();
-
             double xRel = (MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX());
             double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
-
             double zoomDiv = zoomFactor / prevZoomFactor;
 
             xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
             yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
-
-            at.translate(xOffset, yOffset);
-            at.scale(zoomFactor, zoomFactor);
             prevZoomFactor = zoomFactor;
-            g2.transform(at);
+
             zoomer = false;
         }
 
         if (dragger) {
-            AffineTransform at = new AffineTransform();
-            at.translate(xOffset + xDiff, yOffset + yDiff);
-            at.scale(zoomFactor, zoomFactor);
-            g2.transform(at);
-
             if (released) {
                 xOffset += xDiff;
                 yOffset += yDiff;
-                if (xOffset > 0)
-                    xOffset = 0;
-                if (yOffset > 0)
-                    yOffset = 0;
                 dragger = false;
             }
 
         }
 
         if (leftClick) {
-            AffineTransform at = new AffineTransform();
-            at.translate(xOffset, yOffset);
-            at.scale(zoomFactor, zoomFactor);
-            g2.transform(at);
             double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX())
                     - xOffset) / zoomFactor);
             double mouseY = (((MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY())
                     - yOffset) / zoomFactor);
-
             Point2D mouse = new Point2D(mouseX, mouseY);
-            /*
-            try {
-                Writer output;
-                output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
-                output.append("\n" + mouseX + " " + mouseY);
-                output.close();
-                System.out.println("Successfully wrote to the file.");
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
-            */
-            backEndTest.testOutPut(poi.get(poi.nearest(mouse)));
+
+            // createLiftLocations(mouseX, mouseY); //Only for creating lift locations when
+            // creating a new resort or editing a previous.
+
+            backEnd.testOutPut(poi.nearest(mouse), poi.get(poi.nearest(mouse)));
 
             leftClick = false;
         }
 
         if (mouseMoving) {
-            AffineTransform at = new AffineTransform();
-            at.translate(xOffset, yOffset);
-            at.scale(zoomFactor, zoomFactor);
-            g2.transform(at);
             mouseMoving = false;
 
         }
+
+        if (!dragger) {
+            if (xOffset > 0)
+                xOffset = 0;
+            if (yOffset > 0)
+                yOffset = 0;
+
+            if (xOffset < (-7193.0 * zoomFactor + 1280)) {
+                xOffset = (-7193.0 * zoomFactor + 1280);
+            }
+            if (yOffset < (-3861.0 * zoomFactor + 720)) {
+                yOffset = (-3861.0 * zoomFactor + 720);
+            }
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+        } else {
+            double xChange = xOffset + xDiff;
+            double yChange = yOffset + yDiff;
+            if (xChange > 0)
+                xChange = 0;
+            if (yChange > 0)
+                yChange = 0;
+            if (xChange < (-7193.0 * zoomFactor + 1280)) {
+                xChange = (-7193.0 * zoomFactor + 1280);
+            }
+            if (yChange < (-3861.0 * zoomFactor + 720)) {
+                yChange = (-3861.0 * zoomFactor + 720);
+            }
+            at.translate(xChange, yChange);
+            at.scale(zoomFactor, zoomFactor);
+        }
+        g2.transform(at);
+        g2.drawImage(image, 0, 0, this);
 
         double mouseX = (((MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX()) - xOffset)
                 / zoomFactor);
@@ -156,27 +159,33 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
                 / zoomFactor);
         Point2D mouse = new Point2D(mouseX, mouseY);
 
-        g2.drawImage(image, 0, 0, this);
-
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int) (50)));
-        g2.setColor(new Color(250, 0, 0));
+
+        if (backEnd.twoPointsSelected == true)
+            g2.setColor(new Color(211, 211, 211));
+        else
+            g2.setColor(new Color(0, 250, 0));
         for (Point2D el : poi.points()) {
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
+
         Point2D nearest = poi.nearest(mouse);
         g2.setColor(new Color(0, 0, 250));
-        g2.fillOval((int) nearest.x() - 25, (int) nearest.y() - 25, 50, 50);
-       // g2.drawImage(button1, (int) nearest.x(), (int) nearest.y(), this);
+        g2.fillOval((int) nearest.x() - 15, (int) nearest.y() - 15, 30, 30);
+
+        // g2.drawImage(button1, (int) nearest.x(), (int) nearest.y(), this);
+
+        g2.setColor(new Color(250, 0, 0));
+        for (Point2D el : backEnd.pointsSelected) {
+            g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
+        }
 
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
 
         g2.drawString("X: " + xOffset, 500, 500);
 
-        g2.drawString("Y: " + zoomFactor, 500, 700);
-        System.out.println("Xmouse: " +
-                MouseInfo.getPointerInfo().getLocation().getX() + " Ymouse: "
-                + MouseInfo.getPointerInfo().getLocation().getY());
-
+        g2.drawString("Y: " + yOffset, 500, 700);
+        g2.drawString("Zoom: " + zoomFactor, 500, 900);
 
     }
 
@@ -193,19 +202,25 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         // Zoom out
         if (e.getWheelRotation() > 0) {
             zoomFactor /= 1.1;
-            repaint();
+            if (zoomFactor < 0.2) {
+                zoomFactor = 0.2;
+            } else {
+                repaint();
+            }
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (released == false) {
-            Point curPoint = e.getLocationOnScreen();
-            xDiff = curPoint.x - startPoint.x;
-            yDiff = curPoint.y - startPoint.y;
+        if (e.getButton() != MouseEvent.BUTTON1) {
+            if (released == false) {
+                Point curPoint = e.getLocationOnScreen();
+                xDiff = curPoint.x - startPoint.x;
+                yDiff = curPoint.y - startPoint.y;
 
-            dragger = true;
-            repaint();
+                dragger = true;
+                repaint();
+            }
         }
 
     }
@@ -214,7 +229,12 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
     public void mouseMoved(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON1 && e.getButton() != MouseEvent.BUTTON3) {
             mouseMoving = true;
-            repaint();
+            repaintTrack++;
+            // System.out.println(repaintTrack);
+            if (repaintTrack == 50) {
+                repaintTrack = 0;
+                repaint();
+            }
         }
     }
 
@@ -232,6 +252,7 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
         if (e.getButton() == MouseEvent.BUTTON3) {
             released = false;
             startPoint = MouseInfo.getPointerInfo().getLocation();
+            repaint();
         }
     }
 
@@ -250,6 +271,21 @@ public class MainPanel extends JPanel implements MouseWheelListener, MouseListen
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    private void createLiftLocations(double mouseX, double mouseY) {
+
+        try {
+            Writer output;
+            output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
+            output.append("\n" + mouseX + " " + mouseY);
+            output.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
 
     }
 

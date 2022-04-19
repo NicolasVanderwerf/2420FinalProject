@@ -4,15 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Point2D;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class skiHillApp extends JFrame {
-
+   
+    private skiHillPanel mainPanel;
     private JPanel contentPane;
     private static JLabel lblRouteOutput;
 
@@ -40,16 +51,13 @@ public class skiHillApp extends JFrame {
      */
     public skiHillApp() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(25, 10, 1440, 900);
+        setBounds(25, 10, 1280, 720);
         contentPane = new JPanel();
         contentPane.setBorder(null);
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
         
-//        JLabel lblMapImg = extractedlblMapImg();
-//        contentPane.add(lblMapImg, BorderLayout.CENTER);
-        
-        
+
         JLabel lblRunRoute = extractedlblRouteOutput();
         contentPane.add(lblRunRoute, BorderLayout.SOUTH);
         
@@ -62,11 +70,38 @@ public class skiHillApp extends JFrame {
         
     }
 
-    private JPanel extractedSkiHillJPanel() {
-        JPanel centerPanel = new skiHillJPanel();
-        return centerPanel;
+    private JPanel extractedSkiHillJPanel(){
+        try {
+
+            // Load the image that will be shown in the panel
+            BufferedImage image = ImageIO.read(new File("4WitRozEG0phUysB.jpeg"));
+        
+            String filename = "Edge Points.txt";
+            In in = new In(filename);
+        
+            KdTreeST<Integer> testST1 = new KdTreeST<Integer>();
+        
+             for (int i = 0; !in.isEmpty(); i++) {
+                double x = in.readDouble();
+                double y = in.readDouble();
+                Point2D p = new Point2D(x, y);
+                //System.out.println(p + " " + i);
+                testST1.put(p, i);
+            }
+            
+            mainPanel = new skiHillPanel(image,testST1);
+            mainPanel.setBounds(50, 50, 1000, (int)(1000*0.536));
+            mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            //this.add(mainPanel);
+            mainPanel.setVisible(true);
+        
+        } catch (IOException ex) {
+           // Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mainPanel;
     }
 
+   
     private JLabel extractedlblRouteOutput() {
         lblRouteOutput = new JLabel("Select your location, then your desired destination: ");
         lblRouteOutput.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -74,19 +109,5 @@ public class skiHillApp extends JFrame {
         lblRouteOutput.setHorizontalAlignment(SwingConstants.CENTER);
         return lblRouteOutput;
     }
-//
-//    //contains the photo of the skihill
-//    private JLabel extractedlblMapImg() {
-//        JLabel lblMapImg = new JLabel("");
-//        lblMapImg.setOpaque(true);
-//        lblMapImg.setBackground(Color.WHITE);
-//        
-////        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/img/parkCityPhoto.jpg").getImage().getScaledInstance(1196, 708, Image.SCALE_DEFAULT));
-//        
-//
-//        lblMapImg.setIcon(new ImageIcon("src/img/parkCityPhoto_25.jpg"));
-//        lblMapImg.setHorizontalAlignment(SwingConstants.CENTER);
-//        
-//        return lblMapImg;
-//    }
+
 }
