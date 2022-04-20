@@ -150,6 +150,8 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             at.translate(xChange, yChange);
             at.scale(zoomFactor, zoomFactor);
         }
+
+        //Transforms Graphics Object and Draws base Image.
         g2.transform(at);
         g2.drawImage(image, 0, 0, this);
 
@@ -159,8 +161,8 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
                 / zoomFactor);
         Point2D mouse = new Point2D(mouseX, mouseY);
 
-        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, (int) (50)));
 
+        //Draws all dots, Draws in Grey if two points are selected.
         if (backEnd.twoPointsSelected == true)
             g2.setColor(new Color(211, 211, 211));
         else
@@ -169,21 +171,21 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
 
+        //Indicate nearest point to mouse in Blue
         Point2D nearest = poi.nearest(mouse);
         g2.setColor(new Color(0, 0, 250));
         g2.fillOval((int) nearest.x() - 15, (int) nearest.y() - 15, 30, 30);
 
-        // g2.drawImage(button1, (int) nearest.x(), (int) nearest.y(), this);
 
+        //Draw Selected Points Red
         g2.setColor(new Color(250, 0, 0));
         for (Point2D el : backEnd.pointsSelected) {
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
 
+        //Debug Draw
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
-
         g2.drawString("X: " + xOffset, 500, 500);
-
         g2.drawString("Y: " + yOffset, 500, 700);
         g2.drawString("Zoom: " + zoomFactor, 500, 900);
 
@@ -229,12 +231,10 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     public void mouseMoved(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON1 && e.getButton() != MouseEvent.BUTTON3) {
             mouseMoving = true;
-            repaintTrack++;
+            //repaintTrack++;
             // System.out.println(repaintTrack);
-            if (repaintTrack == 50) {
-                repaintTrack = 0;
-                repaint();
-            }
+            repaint();
+
         }
     }
 

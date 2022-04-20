@@ -1,5 +1,7 @@
 package skiHill;
  
+import java.lang.reflect.Array;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
@@ -301,21 +303,26 @@ public class KdTreeST<Value> {
      * @param args
      */
     public static void main(String[] args) {
-        String filename = "testPoints.txt";
+        String filename = "Edge Points.txt";
         In in = new In(filename);
  
-        KdTreeST<Integer> testST1 = new KdTreeST<Integer>();
+        KdTreeST<Integer[]> testST1 = new KdTreeST<Integer[]>();
  
         for (int i = 0; !in.isEmpty(); i++) {
             double x = in.readDouble();
             double y = in.readDouble();
             Point2D p = new Point2D(x, y);
             System.out.println(p + " " + i);
-            testST1.put(p, i);
+            Integer[] testArray = {i,0};
+            testST1.put(p, testArray);
         }
  
         for (Point2D el : testST1.points()) {
             System.out.print(el + " ");
+        }
+        System.out.println();
+        for (Point2D el : testST1.points()) {
+            System.out.print(testST1.get(el)[0] + " ");
         }
  
         System.out.println();
