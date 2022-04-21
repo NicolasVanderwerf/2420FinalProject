@@ -23,9 +23,9 @@ public class backEnd {
         if (liftsSelected.size() < 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
+            textOutput.setText("Starting Lift: " + liftsSelected.get(0) + ". Choose Your Destination.");
             System.out.println(liftsSelected.size());
-        }
-        else if (liftsSelected.size() == 1) {
+        } else if (liftsSelected.size() == 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
             twoPointsSelected = true;
@@ -37,16 +37,12 @@ public class backEnd {
                 string1 += " " + el;
             }
             textOutput.setText("Route: " + liftsSelected.get(0) + "-->" + liftsSelected.get(1) + " Path: " + string1);
-
-        }
-        else if(liftsSelected.size() == 2){
+        } else if(liftsSelected.size() == 2){
             liftsSelected.clear();
             pointsSelected.clear();
             twoPointsSelected = false;
-            textOutput.setText("Route CLeared, Slected two more points");
+            textOutput.setText("Lifts Cleared. Select Your Starting Lift: ");
             System.out.println("Lifts Cleared");
         }
-
     }
-
 }
