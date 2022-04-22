@@ -49,18 +49,18 @@ public class backEnd {
     private static String[] createPointsOfInterestArray(String filename) {
         In in = new In(filename);
         int length = in.readInt();
-        System.out.println(length);
         String[] poiCreation = new String[length+1];
         for (int i = 0; !in.isEmpty(); i++) {
             String x = in.readLine();
-            System.out.println(x);
             poiCreation[i] = x;
         }
-        System.out.println(poiCreation[10]);
         return poiCreation;
     }
 
     public static void main(String[] args) {
         //createPointsOfInterestArray("Lift Names Two Per Lift.txt");
+        String filename = "Pc Mountain Graph Two per Lift";
+        Digraph digraph = new Digraph(new In(filename));
+        System.out.println(digraph.toString());
     }
 }
