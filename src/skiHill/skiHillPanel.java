@@ -46,16 +46,10 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     private Point startPoint;
     private boolean leftClick = false;
     private boolean mouseMoving = false;
-    private BufferedImage button1;
+    
     private int repaintTrack = 0;
 
     public skiHillPanel(BufferedImage image, KdTreeST<Integer> poi) {
-        try {
-            this.button1 = ImageIO.read(new File("red_button.jpg"));
-        } catch (IOException e) {
-            System.out.println("Fiked");
-            e.printStackTrace();
-        }
         this.poi = poi;
         this.image = image;
         initComponent();
@@ -107,7 +101,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
                     - yOffset) / zoomFactor);
             Point2D mouse = new Point2D(mouseX, mouseY);
 
-            // createLiftLocations(mouseX, mouseY); //Only for creating lift locations when
+            //createLiftLocations(mouseX, mouseY); //Only for creating lift locations when
             // creating a new resort or editing a previous.
 
             backEnd.testOutPut(poi.nearest(mouse), poi.get(poi.nearest(mouse)));
@@ -278,7 +272,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
         try {
             Writer output;
-            output = new BufferedWriter(new FileWriter("Edge Points.txt", true));
+            output = new BufferedWriter(new FileWriter("Edge Points Two Per Lift.txt", true));
             output.append("\n" + mouseX + " " + mouseY);
             output.close();
             System.out.println("Successfully wrote to the file.");

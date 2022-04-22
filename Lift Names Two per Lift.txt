@@ -1,0 +1,84 @@
+83
+Park City Base
+Main Street
+Town Lift Bottom
+Town Lift Top
+Payday Express Bottom
+Payday Express Top
+Crescent Express Bottom
+Crescent Express Top
+Park City Parking Lot
+First Time Top
+First Time Bottom
+Three Kings Bottom
+Three Kings Top
+Eagle Bottom
+Eagle Top
+Silver Star Bottom
+Silver Star Top
+Eaglet Top
+Eaglet Bottom
+Bonanza Express Top
+Bonanza Express Bottom
+King Con Express Top
+King Con Express Bottom
+Silverlode Express Top
+Silverlode Express Bottom
+Motherlode Express Top
+Motherlode Exoress Bottom
+Pioneer Top
+Pioneer Bottom
+Thaynes Top
+Thaynes Bottom
+McConkey's Express Top
+McConkey's Express Bottom
+Jupiter Top
+Jupiter Bottom
+Quick Silver Gondola Park City Side
+Quick Silver Gondola Canyons Side
+Cloud Dine Restaurant
+Flat Iron Top
+Flat Iron Bottom
+Iron Mountain Express Top
+Iron Mountain Express Bottom
+DreamCatcher Top
+DreamCatcher Bottom
+DreamScape Top
+DreamScape Bottom
+Day Break Top
+Day Break Bottom
+TimberLine West
+TimberLine East
+TombStone Express Top
+TombStone Express Bottom
+Peak 5 Top
+Peak 5 Bottom
+Ninety-Nine 90 Top
+Ninety-Nine 90 Bottom
+Over and Out Top
+Over and Out Bottom
+SaddleBack Express Top
+SaddleBack Express Bottom
+High Meadow Express Top
+High Meadow Express Bottom
+Red Pine Gondola Top
+Red Pine Gondola Bottom
+Short Cut Top
+Short Cut Bottom
+Orange Bubble Express Top
+Orange Bubble Express Middle
+Orange Bubble Express Bottom
+Sun Peak Express Top
+Sun Peak Express Bottom
+Super Condor Express Top
+Super Condor Express Bottom
+Cabriolet Top
+Cabriolet Bottom
+FrostWood Top
+FrostWood Bottom
+Sunrise Top
+Sunrise Bottom
+Canyons Parking Lot
+The Waldorf Astoria
+Red Pine Lodge
+Canyons Base
