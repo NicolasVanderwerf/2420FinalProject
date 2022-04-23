@@ -46,8 +46,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     private Point startPoint;
     private boolean leftClick = false;
     private boolean mouseMoving = false;
-    
-    private int repaintTrack = 0;
+    private int locationAddedCount;
 
     public skiHillPanel(BufferedImage image, KdTreeST<Integer> poi) {
         this.poi = poi;
@@ -145,7 +144,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             at.scale(zoomFactor, zoomFactor);
         }
 
-        //Transforms Graphics Object and Draws base Image.
+        // Transforms Graphics Object and Draws base Image.
         g2.transform(at);
         g2.drawImage(image, 0, 0, this);
 
@@ -155,8 +154,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
                 / zoomFactor);
         Point2D mouse = new Point2D(mouseX, mouseY);
 
-
-        //Draws all dots, Draws in Grey if two points are selected.
+        // Draws all dots, Draws in Grey if two points are selected.
         if (backEnd.twoPointsSelected == true)
             g2.setColor(new Color(211, 211, 211));
         else
@@ -165,19 +163,18 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
 
-        //Indicate nearest point to mouse in Blue
+        // Indicate nearest point to mouse in Blue
         Point2D nearest = poi.nearest(mouse);
         g2.setColor(new Color(0, 0, 250));
         g2.fillOval((int) nearest.x() - 15, (int) nearest.y() - 15, 30, 30);
 
-
-        //Draw Selected Points Red
+        // Draw Selected Points Red
         g2.setColor(new Color(250, 0, 0));
         for (Point2D el : backEnd.pointsSelected) {
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
 
-        //Debug Draw
+        // Debug Draw
         g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
         g2.drawString("X: " + xOffset, 500, 500);
         g2.drawString("Y: " + yOffset, 500, 700);
@@ -210,12 +207,13 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     public void mouseDragged(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON1) {
             if (released == false) {
-                Point curPoint = e.getLocationOnScreen();
-                xDiff = curPoint.x - startPoint.x;
-                yDiff = curPoint.y - startPoint.y;
-
-                dragger = true;
-                repaint();
+                if (startPoint != null) {
+                    Point curPoint = e.getLocationOnScreen();
+                    xDiff = curPoint.x - startPoint.x;
+                    yDiff = curPoint.y - startPoint.y;
+                    dragger = true;
+                    repaint();
+                }
             }
         }
 
@@ -225,7 +223,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     public void mouseMoved(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON1 && e.getButton() != MouseEvent.BUTTON3) {
             mouseMoving = true;
-            //repaintTrack++;
+            // repaintTrack++;
             // System.out.println(repaintTrack);
             repaint();
 
@@ -280,6 +278,8 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        backEnd.printLocationAndNext(locationAddedCount);
+        locationAddedCount++;
 
     }
 

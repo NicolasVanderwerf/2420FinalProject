@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -51,7 +52,7 @@ public class skiHillApp extends JFrame {
      */
     public skiHillApp() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(25, 10, 1280, 720);
+        setBounds(25, 10, 1280, 900);
         contentPane = new JPanel();
         contentPane.setBorder(null);
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -59,7 +60,7 @@ public class skiHillApp extends JFrame {
         
 
         JLabel lblRunRoute = extractedlblRouteOutput();
-        contentPane.add(lblRunRoute, BorderLayout.SOUTH);
+        contentPane.add(new JScrollPane(lblRunRoute), BorderLayout.SOUTH);
         
         JPanel centerPanel = extractedSkiHillJPanel();
         contentPane.add(centerPanel, BorderLayout.CENTER);
