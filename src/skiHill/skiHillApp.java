@@ -75,9 +75,9 @@ public class skiHillApp extends JFrame {
         try {
 
             // Load the image that will be shown in the panel
-            BufferedImage image = ImageIO.read(new File("4WitRozEG0phUysB.jpeg"));
+            BufferedImage image = ImageIO.read(new File(data.mapLocation));
         
-            String filename = "Edge Points Two per Lift.txt";
+            String filename = data.vertexPointsLocation;
             In in = new In(filename);
         
             KdTreeST<Integer> testST1 = new KdTreeST<Integer>();

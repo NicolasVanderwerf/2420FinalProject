@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 
 public class backEnd {
-    private static String[] pointsOfInterest = createPointsOfInterestArray("Lift Names Two Per Lift.txt");
+    private static String[] pointsOfInterest = createPointsOfInterestArray(data.getLiftNameLocation());
     private static JLabel textOutput = skiHillApp.GetlblRouteOutput();
     private static ArrayList<Integer> liftsSelected = new ArrayList<>();
     public static ArrayList<Point2D> pointsSelected = new ArrayList<>();
@@ -18,19 +18,17 @@ public class backEnd {
 
     public static void backEndInput(Point2D point, int i) {
         textOutput.setFont(new Font("Monospaced", Font.BOLD, 30));
-        System.out.println("Back End Recieved: " + i);
         if (liftsSelected.size() < 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
             textOutput
                     .setText("Starting Lift: " + pointsOfInterest[liftsSelected.get(0)] + ". Choose Your Destination.");
-            System.out.println(liftsSelected.size());
 
         } else if (liftsSelected.size() == 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
             twoPointsSelected = true;
-            String filename = "PC Mountain Graph Two per Lift";
+            String filename = data.getGraphLocation();
             Digraph digraph = new Digraph(new In(filename));
             BreadthFirstDirectedPaths bfdp = new BreadthFirstDirectedPaths(digraph, liftsSelected.get(0));
             for (int el : bfdp.pathTo(liftsSelected.get(1))) {
@@ -58,7 +56,6 @@ public class backEnd {
             pointsSelected.clear();
             twoPointsSelected = false;
             textOutput.setText("Lifts Cleared. Select Your Starting Lift: ");
-            System.out.println("Lifts Cleared");
         }
     }
 
@@ -76,14 +73,14 @@ public class backEnd {
 
     public static void printLocationAndNext(int i) {
         System.out.println("Inputed: " + pointsOfInterest[i]);
-        if (i + 1 <= pointsOfInterest.length) {
+        if (i + 1 >= pointsOfInterest.length) {
             System.out.println("Next Point: " + pointsOfInterest[i + 1]);
         }
     }
 
     public static void main(String[] args) {
         // createPointsOfInterestArray("Lift Names Two Per Lift.txt");
-        String filename = "PC Mountain Graph Two per Lift";
+        String filename = data.getGraphLocation();
         Digraph digraph = new Digraph(new In(filename));
         System.out.println(digraph.toString());
 

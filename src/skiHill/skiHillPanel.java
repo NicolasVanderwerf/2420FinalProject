@@ -14,20 +14,16 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import edu.princeton.cs.algs4.Point2D;
 
 /**
  *
- * @author Thanasis1101
- * @version 1.0
+ * @author NicolasVanderWerf & HaydenBlackmer
  */
 public class skiHillPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
@@ -103,7 +99,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             //createLiftLocations(mouseX, mouseY); //Only for creating lift locations when
             // creating a new resort or editing a previous.
 
-            backEnd.testOutPut(poi.nearest(mouse), poi.get(poi.nearest(mouse)));
+            backEnd.backEndInput(poi.nearest(mouse), poi.get(poi.nearest(mouse)));
 
             leftClick = false;
         }
@@ -266,11 +262,11 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     }
 
+   
     private void createLiftLocations(double mouseX, double mouseY) {
-
         try {
             Writer output;
-            output = new BufferedWriter(new FileWriter("Edge Points Two Per Lift.txt", true));
+            output = new BufferedWriter(new FileWriter(data.vertexPointsLocation, true));
             output.append("\n" + mouseX + " " + mouseY);
             output.close();
             System.out.println("Successfully wrote to the file.");
@@ -278,7 +274,6 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        backEnd.printLocationAndNext(locationAddedCount);
         locationAddedCount++;
 
     }

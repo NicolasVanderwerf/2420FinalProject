@@ -303,7 +303,7 @@ public class KdTreeST<Value> {
      * @param args
      */
     public static void main(String[] args) {
-        String filename = "Edge Points.txt";
+        String filename = data.vertexPointsLocation;
         In in = new In(filename);
  
         KdTreeST<Integer[]> testST1 = new KdTreeST<Integer[]>();
