@@ -1,12 +1,10 @@
 package skiHill;
- 
-import java.lang.reflect.Array;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.RectHV;
-import edu.princeton.cs.algs4.StdRandom;
+
  
 /**
  * Class KdTreeST<Value>. Creates a version of a binary search tree that contains points in the format 
@@ -303,7 +301,7 @@ public class KdTreeST<Value> {
      * @param args
      */
     public static void main(String[] args) {
-        String filename = data.vertexPointsLocation;
+        String filename = fileData.getVertexPointsLocation();
         In in = new In(filename);
  
         KdTreeST<Integer[]> testST1 = new KdTreeST<Integer[]>();

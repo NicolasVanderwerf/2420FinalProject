@@ -115,11 +115,11 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             if (yOffset > 0)
                 yOffset = 0;
 
-            if (xOffset < (-7193.0 * zoomFactor + 1280)) {
-                xOffset = (-7193.0 * zoomFactor + 1280);
+            if (xOffset < (-fileData.getMapSize()[0] * zoomFactor + 1280)) {
+                xOffset = (-fileData.getMapSize()[0] * zoomFactor + 1280);
             }
-            if (yOffset < (-3861.0 * zoomFactor + 720)) {
-                yOffset = (-3861.0 * zoomFactor + 720);
+            if (yOffset < (-fileData.getMapSize()[1] * zoomFactor + 720)) {
+                yOffset = (-fileData.getMapSize()[1] * zoomFactor + 720);
             }
             at.translate(xOffset, yOffset);
             at.scale(zoomFactor, zoomFactor);
@@ -130,11 +130,11 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
                 xChange = 0;
             if (yChange > 0)
                 yChange = 0;
-            if (xChange < (-7193.0 * zoomFactor + 1280)) {
-                xChange = (-7193.0 * zoomFactor + 1280);
+            if (xChange < (-fileData.getMapSize()[0] * zoomFactor + 1280)) {
+                xChange = (-fileData.getMapSize()[0] * zoomFactor + 1280);
             }
-            if (yChange < (-3861.0 * zoomFactor + 720)) {
-                yChange = (-3861.0 * zoomFactor + 720);
+            if (yChange < (-fileData.getMapSize()[1] * zoomFactor + 720)) {
+                yChange = (-fileData.getMapSize()[1] * zoomFactor + 720);
             }
             at.translate(xChange, yChange);
             at.scale(zoomFactor, zoomFactor);
@@ -266,7 +266,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     private void createLiftLocations(double mouseX, double mouseY) {
         try {
             Writer output;
-            output = new BufferedWriter(new FileWriter(data.vertexPointsLocation, true));
+            output = new BufferedWriter(new FileWriter(fileData.getVertexPointsLocation(), true));
             output.append("\n" + mouseX + " " + mouseY);
             output.close();
             System.out.println("Successfully wrote to the file.");

@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 
 public class backEnd {
-    private static String[] pointsOfInterest = createPointsOfInterestArray(data.getLiftNameLocation());
+    private static String[] pointsOfInterest = createPointsOfInterestArray(fileData.getLiftNameLocation());
     private static JLabel textOutput = skiHillApp.GetlblRouteOutput();
     private static ArrayList<Integer> liftsSelected = new ArrayList<>();
     public static ArrayList<Point2D> pointsSelected = new ArrayList<>();
@@ -28,7 +28,7 @@ public class backEnd {
             liftsSelected.add(i);
             pointsSelected.add(point);
             twoPointsSelected = true;
-            String filename = data.getGraphLocation();
+            String filename = fileData.getGraphLocation();
             Digraph digraph = new Digraph(new In(filename));
             BreadthFirstDirectedPaths bfdp = new BreadthFirstDirectedPaths(digraph, liftsSelected.get(0));
             for (int el : bfdp.pathTo(liftsSelected.get(1))) {
@@ -80,7 +80,7 @@ public class backEnd {
 
     public static void main(String[] args) {
         // createPointsOfInterestArray("Lift Names Two Per Lift.txt");
-        String filename = data.getGraphLocation();
+        String filename = fileData.getGraphLocation();
         Digraph digraph = new Digraph(new In(filename));
         System.out.println(digraph.toString());
 
