@@ -8,6 +8,10 @@ import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 
+/**
+ *
+ * @author NicolasVanderWerf & HaydenBlackmer
+ */
 public class backEnd {
     private static String[] pointsOfInterest = createPointsOfInterestArray(fileData.getLiftNameLocation());
     private static JLabel textOutput = skiHillApp.GetlblRouteOutput();
