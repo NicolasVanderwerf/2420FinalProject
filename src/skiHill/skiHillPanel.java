@@ -42,6 +42,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     private Point startPoint;
     private boolean leftClick = false;
     private boolean mouseMoving = false;
+    @SuppressWarnings("unused")
     private int locationAddedCount;
 
     public skiHillPanel(BufferedImage image, KdTreeST<Integer> poi) {
@@ -262,7 +263,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     }
 
-   
+    @SuppressWarnings("unused")
     private void createLiftLocations(double mouseX, double mouseY) {
         try {
             Writer output;

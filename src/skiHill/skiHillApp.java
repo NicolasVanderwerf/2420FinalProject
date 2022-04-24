@@ -21,6 +21,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *
+ * @author NicolasVanderWerf & HaydenBlackmer
+ */
 @SuppressWarnings("serial")
 public class skiHillApp extends JFrame {
    
@@ -28,12 +32,20 @@ public class skiHillApp extends JFrame {
     private JPanel contentPane;
     private static JLabel lblRouteOutput;
 
+    
+
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
+                fileData.setMapLocation("src\\ParkCityMountain\\ParkCityMap.jpeg");
+                fileData.setLiftNameLocation("src\\ParkCityMountain\\LiftNames.txt");
+                fileData.setGraphLocation("src\\ParkCityMountain\\ParkCityMountainGraph");
+                fileData.setVertexPointsLocation("src\\ParkCityMountain\\POILocations.txt");
+                fileData.setMapSize(new Double[]{7193.0,3861.0});
+
                 try {
                     skiHillApp frame = new skiHillApp();
                     frame.setVisible(true);
@@ -52,7 +64,7 @@ public class skiHillApp extends JFrame {
      */
     public skiHillApp() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(25, 10, 1280, 900);
+        setBounds(25, 10, 1280, 855);
         contentPane = new JPanel();
         contentPane.setBorder(null);
         contentPane.setLayout(new BorderLayout(0, 0));
