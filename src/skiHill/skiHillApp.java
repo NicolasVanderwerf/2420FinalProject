@@ -29,11 +29,11 @@ import java.io.IOException;
  */
 @SuppressWarnings("serial")
 public class skiHillApp extends JFrame {
-   
+
     private skiHillPanel mainPanel;
     private JPanel contentPane;
     private static JLabel lblRouteOutput;
-    
+
     /**
      * Launch the application.
      */
@@ -45,9 +45,9 @@ public class skiHillApp extends JFrame {
                     skiHillApp frame = new skiHillApp();
 
                     // Add window listener by implementing WindowAdapter class to
-                    // the frame instance. 
+                    // the frame instance.
                     frame.addWindowListener(new WindowAdapter() {
-                        //To handle the close event we just need
+                        // To handle the close event we just need
                         // to implement the windowClosing() method.
                         @Override
                         public void windowClosing(WindowEvent e) {
@@ -64,7 +64,8 @@ public class skiHillApp extends JFrame {
     }
 
     /**
-     * Getter for the JLabel. 
+     * Getter for the JLabel.
+     * 
      * @return JLabel
      */
     public static JLabel getlblRouteOutput() {
@@ -73,7 +74,7 @@ public class skiHillApp extends JFrame {
 
     /**
      * Create the frame.
-     * Adds all of the components to the frame. 
+     * Adds all of the components to the frame.
      */
     public skiHillApp() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,53 +83,19 @@ public class skiHillApp extends JFrame {
         contentPane.setBorder(null);
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-        
+
+        JPanel centerPanel = extractedSkiHillJPanel();
+        contentPane.add(centerPanel, BorderLayout.CENTER);
 
         JLabel lblRunRoute = extractedlblRouteOutput();
         contentPane.add(new JScrollPane(lblRunRoute), BorderLayout.SOUTH);
-        
-        JPanel centerPanel = extractedSkiHillJPanel();
-        contentPane.add(centerPanel, BorderLayout.CENTER);
-        
 
-        JPanel panel = new JPanel();
-        contentPane.add(panel, BorderLayout.NORTH);   
-    }
-
-    /**
-     * Sets up the center panel in the JFrame. 
-     * @return JPanel 
-     */
-    private JPanel extractedSkiHillJPanel(){
-        try {
-            // Load the image that will be shown in the panel
-            BufferedImage image = ImageIO.read(new File(fileData.getMapLocation()));
-        
-            String filename = fileData.getVertexPointsLocation();
-            In in = new In(filename);
-        
-            KdTreeST<Integer> testST1 = new KdTreeST<Integer>();
-        
-             for (int i = 0; !in.isEmpty(); i++) {
-                double x = in.readDouble();
-                double y = in.readDouble();
-                Point2D p = new Point2D(x, y);
-                testST1.put(p, i);
-            }
-            
-            mainPanel = new skiHillPanel(image, testST1);
-            mainPanel.setBounds(50, 50, 1000, (int)(1000*0.536));
-            mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            mainPanel.setVisible(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mainPanel;
     }
 
     /**
      * Creates a JLabel that takes up the bottom section of the JFrame.
-     * This label is in charge of displaying the desired text to the user. 
+     * This label is in charge of displaying the desired text to the user.
+     * 
      * @return JLabel
      */
     private JLabel extractedlblRouteOutput() {
@@ -137,5 +104,37 @@ public class skiHillApp extends JFrame {
         lblRouteOutput.setFont(new Font("Monospaced", Font.BOLD, 30));
         lblRouteOutput.setHorizontalAlignment(SwingConstants.CENTER);
         return lblRouteOutput;
+    }
+
+    /**
+     * Sets up the center panel in the JFrame.
+     * 
+     * @return JPanel
+     */
+    private JPanel extractedSkiHillJPanel() {
+        try {
+            // Load the image that will be shown in the panel
+            BufferedImage image = ImageIO.read(new File(fileData.getMapLocation()));
+
+            String filename = fileData.getVertexPointsLocation();
+            In in = new In(filename);
+
+            KdTreeST<Integer> testST1 = new KdTreeST<Integer>();
+
+            for (int i = 0; !in.isEmpty(); i++) {
+                double x = in.readDouble();
+                double y = in.readDouble();
+                Point2D p = new Point2D(x, y);
+                testST1.put(p, i);
+            }
+
+            mainPanel = new skiHillPanel(image, testST1);
+            mainPanel.setBounds(50, 50, 1000, (int) (1000 * 0.536));
+            mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            mainPanel.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mainPanel;
     }
 }

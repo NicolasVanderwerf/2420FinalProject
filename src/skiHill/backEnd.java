@@ -12,10 +12,11 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
 
 /**
-<<<<<<< HEAD
-=======
+ * <<<<<<< HEAD
+ * =======
  *
->>>>>>> 6e5bddbb6af7b5f77414147c5c7196c4514a9d8d
+ * >>>>>>> 6e5bddbb6af7b5f77414147c5c7196c4514a9d8d
+ * 
  * @author NicolasVanderWerf & HaydenBlackmer
  */
 public class backEnd {
@@ -30,15 +31,17 @@ public class backEnd {
     public static ArrayList<Point2D> pointsSelected = new ArrayList<>();
 
     /**
-     * In charge of all of the back end functionality. 
+     * In charge of all of the back end functionality.
+     * 
      * @param point the point that was selected by the user
-     * @param i the value of the index associated with the point
+     * @param i     the value of the index associated with the point
      */
     public static void backEndInput(Point2D point, int i) {
         if (liftsSelected.size() < 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
-            textOutput.setText("Starting Lift: " + pointsOfInterest[liftsSelected.get(0)] + ". Choose Your Destination.");
+            textOutput
+                    .setText("Starting Lift: " + pointsOfInterest[liftsSelected.get(0)] + ". Choose Your Destination.");
         } else if (liftsSelected.size() == 1) {
             liftsSelected.add(i);
             pointsSelected.add(point);
@@ -48,7 +51,7 @@ public class backEnd {
 
             setRouteOutputFontSize();
             textOutput.setText(sb.toString());
-            
+
             allRoutes.enqueue(currentRoute);
         } else if (liftsSelected.size() == 2) {
             resetTheRoute();
@@ -57,7 +60,7 @@ public class backEnd {
 
     /**
      * Reads in all of the ski hill names from a text file.
-     * The names are added to an array. 
+     * The names are added to an array.
      */
     private static String[] createPointsOfInterestArray(String filename) {
         In in = new In(filename);
@@ -74,23 +77,23 @@ public class backEnd {
     }
 
     /**
-     * Creates a file, and writes all of the routes 
+     * Creates a file, and writes all of the routes
      * that the user has chosen.
      */
     public static void createOutputFile() {
         try {
             FileWriter myWriter = new FileWriter("routeOutput.txt");
-            for(Queue<String> elQueue : allRoutes){
+            for (Queue<String> elQueue : allRoutes) {
                 myWriter.write(elQueue.dequeue() + " \n");
                 myWriter.write(elQueue.dequeue() + "\n\n");
                 myWriter.write("Route: \n");
                 myWriter.write("-------------------------------------------\n");
-                for(String elCurrentLocation : elQueue){
+                for (String elCurrentLocation : elQueue) {
                     myWriter.write("\t" + elCurrentLocation + "\n");
                 }
                 myWriter.write("\n\n\n\n\n");
             }
-            
+
             myWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,7 +101,8 @@ public class backEnd {
     }
 
     /**
-     * Main method for testing. 
+     * Main method for testing.
+     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -115,10 +119,11 @@ public class backEnd {
     }
 
     /**
-     * Resizes the font size, depending on the number of characters(of the route) that need to 
-     * be displayed on the screen. 
+     * Resizes the font size, depending on the number of characters(of the route)
+     * that need to
+     * be displayed on the screen.
      */
-    public static void setRouteOutputFontSize(){
+    public static void setRouteOutputFontSize() {
         if (sb.length() <= 70) {
         } else if (sb.length() > 70 && sb.length() < 135) {
             int fontSize = 29 - ((100 - 70) / 5);
@@ -126,27 +131,28 @@ public class backEnd {
         } else {
             textOutput.setFont(new Font("Monospaced", Font.BOLD, 15));
         }
-    }    
-
-    /**
-     * Resets the app, preparing for another route to be selected. 
-     */
-    public static void resetTheRoute(){
-        liftsSelected.clear();
-            pointsSelected.clear();
-            twoPointsSelected = false;
-            currentRoute = new Queue<>();
-            sb = new StringBuilder();
-            textOutput.setFont(new Font("Monospaced", Font.BOLD, 30));
-            textOutput.setText("Lifts Cleared. Select Your Starting Lift: ");
     }
 
     /**
-     * Creates the graph, and the quickest route between the two selected points. 
-     * Enqueues strings to our queue, to later be printed out to a text file.
-     * Adds the route to the StringBuilder that will later be displayed on the screen. 
+     * Resets the app, preparing for another route to be selected.
      */
-    public static void createGraphRoute(){
+    public static void resetTheRoute() {
+        liftsSelected.clear();
+        pointsSelected.clear();
+        twoPointsSelected = false;
+        currentRoute = new Queue<>();
+        sb = new StringBuilder();
+        textOutput.setFont(new Font("Monospaced", Font.BOLD, 30));
+        textOutput.setText("Lifts Cleared. Select Your Starting Lift: ");
+    }
+
+    /**
+     * Creates the graph, and the quickest route between the two selected points.
+     * Enqueues strings to our queue, to later be printed out to a text file.
+     * Adds the route to the StringBuilder that will later be displayed on the
+     * screen.
+     */
+    public static void createGraphRoute() {
         String filename = fileData.getGraphLocation();
         Digraph digraph = new Digraph(new In(filename));
         BreadthFirstDirectedPaths bfdp = new BreadthFirstDirectedPaths(digraph, liftsSelected.get(0));
@@ -155,21 +161,22 @@ public class backEnd {
         currentRoute.enqueue("Ending Location  : " + pointsOfInterest[liftsSelected.get(1)]);
 
         for (int el : bfdp.pathTo(liftsSelected.get(1))) {
-            if(liftsSelected.get(0) == liftsSelected.get(1)){
+            if (liftsSelected.get(0) == liftsSelected.get(1)) {
                 currentRoute.enqueue("You're Already There!");
                 sb.append("You're Already There!");
-            }else if (sb.length() == 0){
-                currentRoute.enqueue(pointsOfInterest[el]);  
+            } else if (sb.length() == 0) {
+                currentRoute.enqueue(pointsOfInterest[el]);
                 sb.append("   Path: " + pointsOfInterest[el]);
-            }else{
+            } else {
                 sb.append(" -> " + pointsOfInterest[el] + " ");
-                currentRoute.enqueue(pointsOfInterest[el]);  
-            }         
+                currentRoute.enqueue(pointsOfInterest[el]);
+            }
         }
     }
 
     /**
-     * Used in the creation of a new ski hill. 
+     * Used in the creation of a new ski hill.
+     * 
      * @param i index of lift added and the next lift to add.
      */
     public static void printLocationAndNext(int i) {

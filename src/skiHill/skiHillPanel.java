@@ -42,7 +42,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
     private Point startPoint;
     private boolean leftClick = false;
     private boolean mouseMoving = false;
-    
+
     @SuppressWarnings("unused")
     private int locationAddedCount;
 
@@ -129,13 +129,13 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             if (yOffset < (-fileData.getMapSize()[1] * zoomFactor + 720)) {
                 yOffset = (-fileData.getMapSize()[1] * zoomFactor + 720);
             }
-            
+
             at.translate(xOffset, yOffset);
             at.scale(zoomFactor, zoomFactor);
         } else {
             double xChange = xOffset + xDiff;
             double yChange = yOffset + yDiff;
-            
+
             if (xChange > 0)
                 xChange = 0;
             if (yChange > 0)
@@ -146,7 +146,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             if (yChange < (-fileData.getMapSize()[1] * zoomFactor + 720)) {
                 yChange = (-fileData.getMapSize()[1] * zoomFactor + 720);
             }
-            
+
             at.translate(xChange, yChange);
             at.scale(zoomFactor, zoomFactor);
         }
@@ -167,7 +167,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             g2.setColor(new Color(211, 211, 211));
         else
             g2.setColor(new Color(0, 250, 0));
-            
+
         for (Point2D el : poi.points()) {
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
@@ -179,16 +179,10 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
         // Draw Selected Points Red
         g2.setColor(new Color(250, 0, 0));
-        
+
         for (Point2D el : backEnd.pointsSelected) {
             g2.fillOval((int) el.x() - 25, (int) el.y() - 25, 50, 50);
         }
-
-        // Debug Draw
-        g2.setFont(new Font("Microsoft YaHei", Font.PLAIN, 100));
-        g2.drawString("X: " + xOffset, 500, 500);
-        g2.drawString("Y: " + yOffset, 500, 700);
-        g2.drawString("Zoom: " + zoomFactor, 500, 900);
     }
 
     /**
@@ -205,7 +199,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             zoomFactor *= 1.1;
             repaint();
         }
-        
+
         // Zoom out
         if (e.getWheelRotation() > 0) {
             zoomFactor /= 1.1;
@@ -219,6 +213,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Applies X and Y offset based on mouse input.
+     * 
      * @param e mouse event
      */
     @Override
@@ -238,6 +233,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Refreshes map as mouse is moving.
+     * 
      * @param e mouse event
      */
     @Override
@@ -250,6 +246,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Refreshes map with leftClick = true
+     * 
      * @param e mouse event
      */
     @Override
@@ -262,6 +259,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Refreshes map with released = false
+     * 
      * @param e mouse event
      */
     @Override
@@ -275,6 +273,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Refreshes map with released = true
+     * 
      * @param e mouse event
      */
     @Override
@@ -287,6 +286,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Required MouseEvent
+     * 
      * @param e mouse event
      */
     @Override
@@ -295,6 +295,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
 
     /**
      * Required MouseEvent
+     * 
      * @param e mouse event
      */
     @Override
@@ -306,6 +307,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
      * Is not used when program is running. Writes clicked locations to a file.
      * locationAddedCount is the number of writen locations which is passed to
      * print location and next in backEnd.
+     * 
      * @param mouseX mouse X coordinate relative to transformations
      * @param mouseY mouse Y coordinate relative to transformations
      */
@@ -322,8 +324,7 @@ public class skiHillPanel extends JPanel implements MouseWheelListener, MouseLis
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        
-        
+
     }
 
 }
