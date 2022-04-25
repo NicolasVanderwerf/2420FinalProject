@@ -1,48 +1,27 @@
-Starting Location: DreamScape (Top) 
-Ending Location  : Silverlode Express (Bottom)
+Starting Location: King Con Express (Bottom) 
+Ending Location  : Quick Silver Gondola Canyons Side
 
 Route: 
 -------------------------------------------
-	DreamScape (Top)
-	TimberLine East
-	Over and Out (Bottom)
-	Over and Out (Top)
-	Crescent Express (Top)
-	Silverlode Express (Bottom)
+	King Con Express (Bottom)
+	King Con Express (Top)
+	Quick Silver Gondola Park City Side
+	Quick Silver Gondola Canyons Side
 
 
 
 
 
-Starting Location: Iron Mountain Express (Bottom) 
-Ending Location  : Red Pine Gondola (Bottom)
+Starting Location: DreamCatcher (Top) 
+Ending Location  : Flat Iron (Top)
 
 Route: 
 -------------------------------------------
+	DreamCatcher (Top)
 	Iron Mountain Express (Bottom)
-	TimberLine West
-	TimberLine East
-	Over and Out (Bottom)
-	Over and Out (Top)
-	Red Pine Gondola (Bottom)
-
-
-
-
-
-Starting Location: Short Cut (Top) 
-Ending Location  : Silver Star (Top)
-
-Route: 
--------------------------------------------
-	Short Cut (Top)
-	Sun Peak Express (Bottom)
-	Sun Peak Express (Top)
-	Over and Out (Bottom)
-	Over and Out (Top)
-	Crescent Express (Top)
-	Silver Star (Bottom)
-	Silver Star (Top)
+	Iron Mountain Express (Top)
+	Flat Iron (Bottom)
+	Flat Iron (Top)
 
 
 
