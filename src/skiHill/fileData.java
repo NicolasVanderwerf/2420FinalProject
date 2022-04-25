@@ -8,10 +8,10 @@ package skiHill;
  */
 public class fileData {
     
-	private static final String mapLocation = "src\\ParkCityMountain\\ParkCityMap.jpeg";
-	private static final String liftNameLocation = "src\\ParkCityMountain\\LiftNames.txt";
-	private static final String graphLocation = "src\\ParkCityMountain\\ParkCityMountainGraph";
-	private static final String vertexPointsLocation = "src\\ParkCityMountain\\POILocations.txt";
+	private static final String mapLocation = "src/ParkCityMountain/ParkCityMap.jpeg";
+	private static final String liftNameLocation = "src/ParkCityMountain/LiftNames.txt";
+	private static final String graphLocation = "src/ParkCityMountain/ParkCityMountainGraph";
+	private static final String vertexPointsLocation = "src/ParkCityMountain/POILocations.txt";
 	private static final Double[] mapSize = new Double[] { 7193.0, 3861.0 }; // { X , Y }
 
 	/**
