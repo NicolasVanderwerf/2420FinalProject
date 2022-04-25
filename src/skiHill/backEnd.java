@@ -12,6 +12,10 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
 
 /**
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 6e5bddbb6af7b5f77414147c5c7196c4514a9d8d
  * @author NicolasVanderWerf & HaydenBlackmer
  */
 public class backEnd {
