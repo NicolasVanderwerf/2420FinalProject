@@ -1,27 +1,25 @@
-Starting Location: King Con Express (Bottom) 
-Ending Location  : Quick Silver Gondola Canyons Side
+Starting Location: Three Kings (Bottom) 
+Ending Location  : King Con Express (Bottom)
 
 Route: 
 -------------------------------------------
+	Three Kings (Bottom)
+	Eagle (Bottom)
+	Eagle (Top)
 	King Con Express (Bottom)
-	King Con Express (Top)
-	Quick Silver Gondola Park City Side
-	Quick Silver Gondola Canyons Side
 
 
 
 
 
-Starting Location: DreamCatcher (Top) 
-Ending Location  : Flat Iron (Top)
+Starting Location: Iron Mountain Express (Bottom) 
+Ending Location  : DreamCatcher (Bottom)
 
 Route: 
 -------------------------------------------
-	DreamCatcher (Top)
 	Iron Mountain Express (Bottom)
 	Iron Mountain Express (Top)
-	Flat Iron (Bottom)
-	Flat Iron (Top)
+	DreamCatcher (Bottom)
 
 
 
