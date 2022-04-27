@@ -7,18 +7,11 @@ package skiHill;
  * @author NicolasVanderWerf & HaydenBlackmer
  */
 public class fileData {
-    
-<<<<<<< HEAD
 	private static final String mapLocation = "ParkCityMountain\\ParkCityMap.jpeg";
 	private static final String liftNameLocation = "ParkCityMountain\\LiftNames.txt";
 	private static final String graphLocation = "ParkCityMountain\\ParkCityMountainGraph";
 	private static final String vertexPointsLocation = "ParkCityMountain\\POILocations.txt";
-=======
-	private static final String mapLocation = "src/ParkCityMountain/ParkCityMap.jpeg";
-	private static final String liftNameLocation = "src/ParkCityMountain/LiftNames.txt";
-	private static final String graphLocation = "src/ParkCityMountain/ParkCityMountainGraph";
-	private static final String vertexPointsLocation = "src/ParkCityMountain/POILocations.txt";
->>>>>>> 32b946805a69e67dd257f177f0e4ea9b7fd808b7
+
 	private static final Double[] mapSize = new Double[] { 7193.0, 3861.0 }; // { X , Y }
 
 	/**
