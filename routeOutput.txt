@@ -1,0 +1,15 @@
+Starting Location: Short Cut (Bottom) 
+Ending Location  : SaddleBack Express (Bottom)
+
+Route: 
+-------------------------------------------
+	Short Cut (Bottom)
+	Short Cut (Top)
+	Sun Peak Express (Bottom)
+	Sun Peak Express (Top)
+	SaddleBack Express (Bottom)
+
+
+
+
+
